@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14' # You can change this to the version you want
+          node-version: '12' # You can change this to the version you want
 
       - name: Set Ticket_NO
         run: echo "TICKET_NO=${{ github.event.client_payload.ticket_number }}" >> $GITHUB_ENV
