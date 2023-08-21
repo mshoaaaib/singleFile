@@ -18,18 +18,17 @@ jobs:
         with:
           node-version: '14' # You can change this to the version you want
 
+      - name: Set Ticket_NO
+        run: echo "TICKET_NO=${{ github.event.client_payload.ticket_number }}" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: npm install axios
 
       - name: Run api.js
         run: |
-          TICKET_NUMBER=$INPUT_TICKET_NUMBER  # Get the ticket number from the input
-
-          # Start of embedded api.js content
           const axios = require('axios');
 
-          const Ticket_NO = TICKET_NUMBER;
-
+          const Ticket_NO = process.env.TICKET_NO;
           if (!Ticket_NO) {
             console.error('Error: Ticket number not provided.');
             process.exit(1);
@@ -38,8 +37,7 @@ jobs:
           const url = 'https://testjiragitautomation.atlassian.net/rest/api/3/issue/' + Ticket_NO;
           const auth = {
             username: 'muhammadshoaibajk@gmail.com',
-            password: 'ATATT3xFfGF0MsZE1cirJxVkX1B0dSskqdEvUJG0ZeV6PQBxzC7sg22e0rEc_jeaasfMAgoy4gkhYYZ0F8blgp2rKPUD8JUBWZtwwAy5Ihf1Iu-ish7zcggpoJFWisf7IFgkmh3-byFlP7YLWQZYFim1SycJ6fERYj7RWwROn3n8N1hTFeenJ5E=CAA656F8'
-          };
+            password: 'ATATT3xFfGF0MsZE1cirJxVkX1B0dSskqdEvUJG0ZeV6PQBxzC7sg22e0rEc_jeaasfMAgoy4gkhYYZ0F8blgp2rKPUD8JUBWZtwwAy5Ihf1Iu-ish7zcggpoJFWisf7IFgkmh3-byFlP7YLWQZYFim1SycJ6fERYj7RWwROn3n8N1hTFeenJ5E=CAA656F8';
 
           const requestBody = {
             update: {
@@ -59,7 +57,3 @@ jobs:
             .catch(error => {
               console.error('Error:', error);
             });
-          # End of embedded api.js content
-
-        env:
-          INPUT_TICKET_NUMBER: ${{ github.event.client_payload.ticket_number }}
